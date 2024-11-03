@@ -28,7 +28,7 @@ body {
   background: rgba(255, 255, 255, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.34);
   flex-basis: 450px;
-  height: 225px;
+  height: fit-content;
   padding: 20px 35px;
 }
 
@@ -63,4 +63,17 @@ body {
 
 .button:active {
   background-color: #ffef78;
+}
+
+.link {
+  margin: 5% 0;
+  backdrop-filter: blur(5.5px);
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(35, 35, 35, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
+  color: #232323;
+  font-size: 24px;
+  padding: 20px;
+  width: fit-content;
 }
