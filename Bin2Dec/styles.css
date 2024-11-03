@@ -1,0 +1,66 @@
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+*,
+*::before *::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+body {
+  align-items: center;
+  background: linear-gradient(to bottom, #00aaff, #00ff6c);
+  display: flex;
+  height: inherit;
+  justify-content: center;
+}
+
+.converter {
+  backdrop-filter: (5.5px);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
+  color: #232323;
+  backdrop-filter: blue(4px);
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  flex-basis: 450px;
+  height: 225px;
+  padding: 20px 35px;
+}
+
+.output {
+  backdrop-filter: blue(5.5px);
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.01);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
+  color: #232323;
+  font-size: 35px;
+  overflow: auto;
+  padding: 20px;
+  width: 326px;
+}
+
+.button {
+  margin: 5% 0;
+  backdrop-filter: blur(5.5px);
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(35, 35, 35, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
+  color: #232323;
+  font-size: 24px;
+  padding: 20px;
+}
+
+.button:hover {
+  background-color: inherit;
+}
+
+.button:active {
+  background-color: #ffef78;
+}
