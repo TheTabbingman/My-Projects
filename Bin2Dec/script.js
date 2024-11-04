@@ -11,3 +11,17 @@ function bin2Dec(binary) {
   }
   document.getElementById("number").textContent = previousBit;
 }
+
+function dec2Bin(decimal) {
+  let currentDecimal = decimal;
+  let binaryString = "";
+  if (currentDecimal === 0 || currentDecimal === "") {
+    binaryString = "0";
+  }
+  while (currentDecimal > 0) {
+    let tempBinary = currentDecimal % 2;
+    binaryString = tempBinary + binaryString;
+    currentDecimal = Math.floor(currentDecimal / 2);
+  }
+  document.getElementById("number").textContent = binaryString;
+}

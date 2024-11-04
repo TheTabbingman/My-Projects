@@ -27,7 +27,7 @@ body {
   backdrop-filter: blue(4px);
   background: rgba(255, 255, 255, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.34);
-  flex-basis: 450px;
+  flex-basis: 600px;
   height: fit-content;
   padding: 20px 35px;
 }
