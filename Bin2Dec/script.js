@@ -1,38 +1,42 @@
+function updateOutput(input) {
+  document.getElementById("number").textContent = input;
+}
+
 function bin2Dec(binary) {
   const binaryString = binary.toString();
-  let previousBit = 0;
   if (binaryString === "") {
-    document.getElementById("number").textContent = 0;
+    updateOutput(0);
     return;
   }
   const isBinary = /^[01]+$/.test(binaryString);
   if (!isBinary) {
-    document.getElementById("number").textContent = "Not a binary number";
+    updateOutput("Not a binary number");
     return;
   }
+  let previousBit = 0;
   for (let i = 0; i < binaryString.length; i++) {
     let currentBit = binaryString.charAt(i);
     previousBit = previousBit * 2 + parseInt(currentBit);
   }
-  document.getElementById("number").textContent = previousBit;
+  updateOutput(previousBit);
 }
 
 function dec2Bin(decimal) {
   let currentDecimal = decimal;
-  let binaryString = "";
   if (currentDecimal === 0 || currentDecimal === "") {
-    document.getElementById("number").textContent = 0;
+    updateOutput(0);
     return;
   }
   const isNumber = /^[0-9]+$/.test(currentDecimal);
   if (!isNumber) {
-    document.getElementById("number").textContent = "Not a number";
+    updateOutput("Not a number");
     return;
   }
+  let binaryString = "";
   while (currentDecimal > 0) {
     let tempBinary = currentDecimal % 2;
     binaryString = tempBinary + binaryString;
     currentDecimal = Math.floor(currentDecimal / 2);
   }
-  document.getElementById("number").textContent = binaryString;
+  updateOutput(binaryString);
 }
