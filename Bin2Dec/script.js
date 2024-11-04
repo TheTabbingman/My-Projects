@@ -13,12 +13,12 @@ function bin2Dec(binary) {
     updateOutput("Not a binary number");
     return;
   }
-  let previousBit = 0;
+  let decimalValue = 0;
   for (let i = 0; i < binaryString.length; i++) {
     let currentBit = binaryString.charAt(i);
-    previousBit = previousBit * 2 + parseInt(currentBit);
+    decimalValue = decimalValue * 2 + parseInt(currentBit);
   }
-  updateOutput(previousBit);
+  updateOutput(decimalValue);
 }
 
 function dec2Bin(decimal) {
@@ -34,8 +34,7 @@ function dec2Bin(decimal) {
   }
   let binaryString = "";
   while (currentDecimal > 0) {
-    let tempBinary = currentDecimal % 2;
-    binaryString = tempBinary + binaryString;
+    binaryString = (currentDecimal % 2) + binaryString;
     currentDecimal = Math.floor(currentDecimal / 2);
   }
   updateOutput(binaryString);
