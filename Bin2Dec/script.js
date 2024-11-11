@@ -4,12 +4,7 @@ function updateOutput(input) {
 
 function dec2Bin(decimal) {
   let currentDecimal = decimal;
-  if (currentDecimal == 0 || currentDecimal === "") {
-    updateOutput(0);
-    return;
-  }
-  if (!/^[0-9]+$/.test(currentDecimal)) {
-    updateOutput("Not a decimal number");
+  if (!isDec(currentDecimal)) {
     return;
   }
   let binaryString = "";
@@ -22,8 +17,7 @@ function dec2Bin(decimal) {
 
 function dec2Hex(decimal) {
   let decimalValue = decimal;
-  if (isNaN(decimal)) {
-    updateOutput("Not a decimal number");
+  if (!isDec(decimalValue)) {
     return;
   }
   let hexValue = "";
@@ -37,14 +31,24 @@ function dec2Hex(decimal) {
   updateOutput(hexValue);
 }
 
+function isDec(decimal) {
+  if (currentDecimal == 0 || currentDecimal === "") {
+    updateOutput(0);
+    return false;
+  } else if (!/^[0-9]+$/.test(currentDecimal)) {
+    updateOutput("Not a decimal number");
+    return false;
+  } else if (isNaN(decimal)) {
+    updateOutput("Not a decimal number");
+    return false;
+  } else {
+    return true;
+  }
+}
+
 function bin2Dec(binary) {
   const binaryString = binary.toString();
-  if (binaryString === "") {
-    updateOutput(0);
-    return;
-  }
-  if (!/^[01]+$/.test(binaryString)) {
-    updateOutput("Not a binary number");
+  if (!isBin(binaryString)) {
     return;
   }
   let decimalValue = 0;
@@ -56,42 +60,42 @@ function bin2Dec(binary) {
 }
 
 function bin2Hex(binary) {
-  let binaryString = binary.toString()
-  if (binaryString === "") {
-    updateOutput("0x" + 0);
+  let binaryString = binary.toString();
+  if (!isBin(binaryString)) {
     return;
   }
-  if (!/^[01]+$/.test(binaryString)) {
-    updateOutput("Not a binary number");
-    return;
-  }
-  let binaryChunk = ""
-  let hexValue = ""
+  let binaryChunk = "";
+  let hexValue = "";
   while (binaryString.length % 4 !== 0) {
-    binaryString = "0" + binaryString
+    binaryString = "0" + binaryString;
   }
   for (let i = binaryString.length - 1; i >= 0; i--) {
-    binaryChunk = binaryString.charAt(i) + binaryChunk 
+    binaryChunk = binaryString.charAt(i) + binaryChunk;
     if (binaryChunk.toString().length === 4) {
-      hexValue = parseInt(binaryChunk, 2).toString(16).toUpperCase() + hexValue 
-      binaryChunk = ""
+      hexValue = parseInt(binaryChunk, 2).toString(16).toUpperCase() + hexValue;
+      binaryChunk = "";
     }
   }
-  updateOutput("0x" + hexValue)
+  updateOutput("0x" + hexValue);
+}
+
+function isBin(binary) {
+  if (binary === "") {
+    updateOutput("0x" + 0);
+    return false;
+  } else if (!/^[01]+$/.test(binary)) {
+    updateOutput("Not a binary number");
+    return false;
+  } else {
+    return true;
+  }
 }
 
 function hex2Dec(hex) {
   const hexString = hex.toString();
-  console.log(hexString)
-  if (hexString === "") {
-    updateOutput(0);
+  if (!isHex(hexString)) {
     return;
   }
-  if (!/^[0-9a-fA-F]+$/.test(hexString) ) {
-    updateOutput("Not a hex number")
-    return
-  }
-  console.log('fart')
   let decimalValue = 0;
   for (let i = 0; i < hexString.length; i++) {
     let hexValue = hexString.charAt(i);
@@ -101,32 +105,30 @@ function hex2Dec(hex) {
 }
 
 function hex2Bin(hex) {
-  const hexString = hex
+  const hexString = hex;
   if (!isHex(hexString)) {
-    return
+    return;
   }
-  let binValue = ""
+  let binValue = "";
   for (let i = 0; i < hexString.length; i++) {
-    let tempHex = hexString.charAt(i)
-    tempHex = parseInt(tempHex, 16).toString(2)
+    let tempHex = hexString.charAt(i);
+    tempHex = parseInt(tempHex, 16).toString(2);
     while (tempHex.length % 4 !== 0 && i > 0) {
-      tempHex = "0" + tempHex
+      tempHex = "0" + tempHex;
     }
-    binValue = binValue + tempHex
+    binValue = binValue + tempHex;
   }
-  updateOutput(binValue)
+  updateOutput(binValue);
 }
 
 function isHex(hex) {
   if (hex === "") {
     updateOutput(0);
     return false;
-  }
-  else if (!/^[0-9a-fA-F]+$/.test(hex) ) {
-    updateOutput("Not a hex number")
-    return false
-  }
-  else {
-    return true
+  } else if (!/^[0-9a-fA-F]+$/.test(hex)) {
+    updateOutput("Not a hex number");
+    return false;
+  } else {
+    return true;
   }
 }
