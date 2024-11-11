@@ -8,8 +8,7 @@ function bin2Dec(binary) {
     updateOutput(0);
     return;
   }
-  const isBinary = /^[01]+$/.test(binaryString);
-  if (!isBinary) {
+  if (!/^[01]+$/.test(binaryString)) {
     updateOutput("Not a binary number");
     return;
   }
@@ -27,8 +26,7 @@ function dec2Bin(decimal) {
     updateOutput(0);
     return;
   }
-  const isNumber = /^[0-9]+$/.test(currentDecimal);
-  if (!isNumber) {
+  if (!/^[0-9]+$/.test(currentDecimal)) {
     updateOutput("Not a number");
     return;
   }
@@ -42,27 +40,31 @@ function dec2Bin(decimal) {
 
 function hex2Dec(hex) {
   const hexString = hex.toString();
+  if (!/[0-9a-fA-F]/.test(hexString) ) {
+    updateOutput("Not a hex number")
+    return
+  }
   let decimalValue = 0;
   for (let i = 0; i < hexString.length; i++) {
     let hexValue = hexString.charAt(i);
     decimalValue = decimalValue * 16 + parseInt(hexValue, 16);
   }
-  updateOutput(decimalValue)
+  updateOutput(decimalValue);
 }
 
 function dec2Hex(decimal) {
   let decimalValue = decimal;
   if (isNaN(decimal)) {
-    console.log("Input not a number")
-    return
+    console.log("Input not a number");
+    return;
   }
   let hexValue = "";
   while (decimalValue !== 0) {
     let tempHex = decimalValue % 16;
     decimalValue = Math.floor(decimalValue / 16);
-    tempHex = tempHex.toString(16).toUpperCase()
+    tempHex = tempHex.toString(16).toUpperCase();
     hexValue = tempHex + hexValue;
   }
-  hexValue = "0x" + hexValue
-  updateOutput(hexValue)
+  hexValue = "0x" + hexValue;
+  updateOutput(hexValue);
 }
