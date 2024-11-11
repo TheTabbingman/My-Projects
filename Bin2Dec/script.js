@@ -39,3 +39,51 @@ function dec2Bin(decimal) {
   }
   updateOutput(binaryString);
 }
+
+function hex2Dec(hex) {
+  const hexString = hex.toString();
+  let decimalValue = 0;
+  for (let i = 0; i < hexString.length; i++) {
+    let hexValue = hexString.charAt(i);
+    decimalValue = decimalValue * 16 + parseInt(hexValue, 16);
+  }
+  updateOutput(decimalValue)
+}
+
+function dec2Hex(decimal) {
+  let decimalValue = decimal;
+  if (isNaN(decimal)) {
+    console.log("Input not a number")
+    return
+  }
+  let hexValue = "";
+  while (decimalValue !== 0) {
+    let tempHex = decimalValue % 16;
+    decimalValue = Math.floor(decimalValue / 16);
+    switch (tempHex) {
+      case 10:
+        tempHex = "A";
+        break;
+      case 11:
+        tempHex = "B";
+        break;
+      case 12:
+        tempHex = "C";
+        break;
+      case 13:
+        tempHex = "D";
+        break;
+      case 14:
+        tempHex = "E";
+        break;
+      case 15:
+        tempHex = "F";
+        break;
+      default:
+        break;
+    }
+    hexValue = tempHex + hexValue;
+  }
+  hexValue = "0x" + hexValue
+  updateOutput(hexValue)
+}
