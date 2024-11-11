@@ -4,9 +4,7 @@ function updateOutput(input) {
 
 function dec2Bin(decimal) {
   let currentDecimal = decimal;
-  if (!isDec(currentDecimal)) {
-    return;
-  }
+  isDec(currentDecimal);
   let binaryString = "";
   while (currentDecimal > 0) {
     binaryString = (currentDecimal % 2) + binaryString;
@@ -17,9 +15,7 @@ function dec2Bin(decimal) {
 
 function dec2Hex(decimal) {
   let decimalValue = decimal;
-  if (!isDec(decimalValue)) {
-    return;
-  }
+  isDec(decimalValue);
   let hexValue = "";
   while (decimalValue !== 0) {
     let tempHex = decimalValue % 16;
@@ -32,25 +28,23 @@ function dec2Hex(decimal) {
 }
 
 function isDec(decimal) {
-  if (currentDecimal == 0 || currentDecimal === "") {
+  if (decimal == 0 || decimal === "") {
     updateOutput(0);
-    return false;
-  } else if (!/^[0-9]+$/.test(currentDecimal)) {
+    throw new Error("Invalid decimal number");
+  } else if (!/^[0-9]+$/.test(decimal)) {
     updateOutput("Not a decimal number");
-    return false;
+    throw new Error("Not a decimal number");
   } else if (isNaN(decimal)) {
     updateOutput("Not a decimal number");
-    return false;
+    throw new Error("Not a decimal number");
   } else {
-    return true;
+    return;
   }
 }
 
 function bin2Dec(binary) {
   const binaryString = binary.toString();
-  if (!isBin(binaryString)) {
-    return;
-  }
+  isBin(binaryString)
   let decimalValue = 0;
   for (let i = 0; i < binaryString.length; i++) {
     let currentBit = binaryString.charAt(i);
@@ -61,9 +55,7 @@ function bin2Dec(binary) {
 
 function bin2Hex(binary) {
   let binaryString = binary.toString();
-  if (!isBin(binaryString)) {
-    return;
-  }
+  isBin(binaryString)
   let binaryChunk = "";
   let hexValue = "";
   while (binaryString.length % 4 !== 0) {
@@ -82,20 +74,18 @@ function bin2Hex(binary) {
 function isBin(binary) {
   if (binary === "") {
     updateOutput("0x" + 0);
-    return false;
+    throw new Error("Not a valid number")
   } else if (!/^[01]+$/.test(binary)) {
     updateOutput("Not a binary number");
-    return false;
-  } else {
-    return true;
+    throw new Error("Not a binary number")
+  } else {    
+    return;
   }
 }
 
 function hex2Dec(hex) {
   const hexString = hex.toString();
-  if (!isHex(hexString)) {
-    return;
-  }
+  isHex(hexString)
   let decimalValue = 0;
   for (let i = 0; i < hexString.length; i++) {
     let hexValue = hexString.charAt(i);
@@ -106,9 +96,7 @@ function hex2Dec(hex) {
 
 function hex2Bin(hex) {
   const hexString = hex;
-  if (!isHex(hexString)) {
-    return;
-  }
+  isHex(hexString)
   let binValue = "";
   for (let i = 0; i < hexString.length; i++) {
     let tempHex = hexString.charAt(i);
@@ -124,11 +112,11 @@ function hex2Bin(hex) {
 function isHex(hex) {
   if (hex === "") {
     updateOutput(0);
-    return false;
+    throw new Error("Not a valid number")
   } else if (!/^[0-9a-fA-F]+$/.test(hex)) {
     updateOutput("Not a hex number");
-    return false;
+    throw new Error("Not a hex number")
   } else {
-    return true;
+    return;
   }
 }
