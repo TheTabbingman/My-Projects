@@ -60,28 +60,7 @@ function dec2Hex(decimal) {
   while (decimalValue !== 0) {
     let tempHex = decimalValue % 16;
     decimalValue = Math.floor(decimalValue / 16);
-    switch (tempHex) {
-      case 10:
-        tempHex = "A";
-        break;
-      case 11:
-        tempHex = "B";
-        break;
-      case 12:
-        tempHex = "C";
-        break;
-      case 13:
-        tempHex = "D";
-        break;
-      case 14:
-        tempHex = "E";
-        break;
-      case 15:
-        tempHex = "F";
-        break;
-      default:
-        break;
-    }
+    tempHex = tempHex.toString(16).toUpperCase()
     hexValue = tempHex + hexValue;
   }
   hexValue = "0x" + hexValue
