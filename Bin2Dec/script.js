@@ -23,8 +23,7 @@ function dec2Hex(decimal) {
     tempHex = tempHex.toString(16).toUpperCase();
     hexValue = tempHex + hexValue;
   }
-  hexValue = "0x" + hexValue;
-  updateOutput(hexValue);
+  updateOutput("0x" + hexValue);
 }
 
 function isDec(decimal) {
