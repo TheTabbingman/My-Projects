@@ -27,7 +27,7 @@ function dec2Hex(decimal) {
 }
 
 function isDec(decimal) {
-  if (decimal == 0 || decimal === "") {
+  if (Number(decimal) === 0 || decimal === "") {
     updateOutput(0);
     throw new Error("Invalid decimal number");
   } else if (!/^[0-9]+$/.test(decimal)) {
