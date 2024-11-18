@@ -36,8 +36,6 @@ function isDec(decimal) {
   } else if (isNaN(decimal)) {
     updateOutput("Not a decimal number");
     throw new Error("Not a decimal number");
-  } else {
-    return;
   }
 }
 
@@ -77,8 +75,6 @@ function isBin(binary) {
   } else if (!/^[01]+$/.test(binary)) {
     updateOutput("Not a binary number");
     throw new Error("Not a binary number")
-  } else {    
-    return;
   }
 }
 
@@ -115,7 +111,5 @@ function isHex(hex) {
   } else if (!/^[0-9a-fA-F]+$/.test(hex)) {
     updateOutput("Not a hex number");
     throw new Error("Not a hex number")
-  } else {
-    return;
   }
 }
