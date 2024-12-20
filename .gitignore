@@ -1,2 +1,4 @@
 **/.templates
 template.config.js
+/node_modules
+/.idea
