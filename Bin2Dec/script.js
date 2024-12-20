@@ -1,17 +1,19 @@
 /**
  *
- * @param {number | string} input - Input to be displayed on output
+ * @param {string | number} input - Input to be displayed on output
  */
 function updateOutput(input) {
-  document.getElementById("number").textContent = input;
+  input = String(input);
+  // @ts-expect-error
+  output.textContent = input;
 }
 
 /**
  * Converts decimal to binary
- * @param {number} decimal - Decimal number to convert
+ * @param {number | string} decimal - Decimal number to convert
  */
 function dec2Bin(decimal) {
-  let currentDecimal = decimal;
+  let currentDecimal = Number(decimal);
   isDec(currentDecimal);
   let binaryString = "";
   while (currentDecimal > 0) {
@@ -23,17 +25,17 @@ function dec2Bin(decimal) {
 
 /**
  *
- * @param {number} decimal - Decimal number to convert
+ * @param {number | string} decimal - Decimal number to convert
  */
 function dec2Hex(decimal) {
-  let decimalValue = decimal;
+  let decimalValue = Number(decimal);
   isDec(decimalValue);
   let hexValue = "";
   while (decimalValue !== 0) {
-    let tempHex = decimalValue % 16;
+    const tempHex = decimalValue % 16;
     decimalValue = Math.floor(decimalValue / 16);
-    tempHex = tempHex.toString(16).toUpperCase();
-    hexValue = tempHex + hexValue;
+    const tempHexStr = tempHex.toString(16).toUpperCase();
+    hexValue = tempHexStr + hexValue;
   }
   updateOutput("0x" + hexValue);
 }
@@ -43,15 +45,15 @@ function dec2Hex(decimal) {
  * @param {number} decimal - Decimal number to check
  */
 function isDec(decimal) {
-  if (Number(decimal) === 0 || decimal === "") {
+  if (decimal === 0) {
     updateOutput(0);
     throw new Error("Invalid decimal number");
-  } else if (!/^\d+$/.test(decimal)) {
-    updateOutput("Not a decimal number");
-    throw new Error("Not a decimal number");
   } else if (isNaN(decimal)) {
     updateOutput("Not a decimal number");
     throw new Error("Not a decimal number");
+  } else if (!Number.isInteger(decimal)) {
+    updateOutput("Not a whole decimal number");
+    throw new Error("Not a whole decimal number");
   }
 }
 
@@ -153,3 +155,53 @@ function isHex(hex) {
     throw new Error("Not a hex number");
   }
 }
+
+const output = document.getElementById("number");
+const bin2DecBtn = document.getElementById("bin2Dec");
+const dec2BinBtn = document.getElementById("dec2Bin");
+const hex2DecBtn = document.getElementById("hex2Dec");
+const dec2HexBtn = document.getElementById("dec2Hex");
+const bin2HexBtn = document.getElementById("bin2Hex");
+const hex2BinBtn = document.getElementById("hex2Bin");
+
+// @ts-expect-error
+bin2DecBtn.addEventListener("click", () => {
+  // @ts-expect-error
+  const input = document.getElementById("input").value;
+  bin2Dec(input);
+});
+
+// @ts-expect-error
+dec2BinBtn.addEventListener("click", () => {
+  // @ts-expect-error
+  const input = document.getElementById("input").value;
+  dec2Bin(input);
+});
+
+// @ts-expect-error
+hex2DecBtn.addEventListener("click", () => {
+  // @ts-expect-error
+  const input = document.getElementById("input").value;
+  hex2Dec(input);
+});
+
+// @ts-expect-error
+dec2HexBtn.addEventListener("click", () => {
+  // @ts-expect-error
+  const input = document.getElementById("input").value;
+  dec2Hex(input);
+});
+
+// @ts-expect-error
+bin2HexBtn.addEventListener("click", () => {
+  // @ts-expect-error
+  const input = document.getElementById("input").value;
+  bin2Hex(input);
+});
+
+// @ts-expect-error
+hex2BinBtn.addEventListener("click", () => {
+  // @ts-expect-error
+  const input = document.getElementById("input").value;
+  hex2Bin(input);
+});
