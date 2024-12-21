@@ -29,7 +29,7 @@ function factorialDecimal(n) {
  * @param {number} digits - Number of decimal digits to calculate
  * @returns {string} - Digits of e specified
  */
-function calculate_e(digits) {
+function e(digits) {
   Decimal.set({ precision: digits + 3 });
   let e = new Decimal(2);
   let factorial = new Decimal(1);
@@ -42,4 +42,46 @@ function calculate_e(digits) {
   return result;
 }
 
-console.log(calculate_e(9999));
+/**
+ *
+ * @param {number} digits - Fibonacci digit to calculate
+ * @returns {number} - Fibonacci number at the specified digit
+ */
+function fibonacci(digits) {
+  const fibonacci = [0, 1];
+  for (let n = 2; n < digits + 1; n++) {
+    fibonacci[n] = fibonacci[n - 1] + fibonacci[n - 2];
+  }
+  return fibonacci[digits];
+}
+
+/**
+ *
+ * @param {any[]} array - Array to deduplicate
+ * @returns {any[]} - Array with duplicates removed
+ */
+function array_deduplicate(array) {
+  return [...new Set(array)];
+}
+
+/**
+ *
+ * @param {number} number - Number to calculate prime factors of
+ * @returns {number[]} - Prime factors of the specified number
+ */
+function prime_factors(number) {
+  let factors = [];
+  for (let i = 2; number !== 1; i++) {
+    if (number % i === 0) {
+      number /= i;
+      factors.push(i);
+      i = 1;
+    }
+  }
+  factors = array_deduplicate(factors);
+  return factors;
+}
+
+console.log(e(100));
+console.log(fibonacci(19));
+console.log(prime_factors(4568));
