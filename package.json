@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Various of my projects",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "jest"
   },
@@ -15,5 +16,8 @@
     "globals": "^15.14.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0"
+  },
+  "dependencies": {
+    "decimal.js": "^10.4.3"
   }
 }
