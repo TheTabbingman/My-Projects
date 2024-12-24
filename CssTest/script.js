@@ -1,4 +1,6 @@
-const fart = document.getElementById("change");
+const buttons = document.querySelectorAll(".buttons");
+const color = document.getElementById("color");
+const font = document.getElementById("font");
 const colors = [
   "red",
   "blue",
@@ -10,6 +12,18 @@ const colors = [
   "black",
   "white",
   "brown",
+];
+const fonts = [
+  "Jetbrains Mono",
+  "Arial",
+  "Times New Roman",
+  "Courier New",
+  "Verdana",
+  "Georgia",
+  "Comic Sans MS",
+  "Impact",
+  "Lucida Console",
+  "Tahoma",
 ];
 
 /**
@@ -42,12 +56,32 @@ function randomColor() {
   return [fartBackgroundColor, fartColor, backgroundColor];
 }
 
+/**
+ * Chooses random font from fonts array
+ * @returns {string} - Random font
+ */
+function randomFont() {
+  const font = fonts[random(0, fonts.length - 1)];
+  return font;
+}
+
 // @ts-ignore
-fart.addEventListener("click", () => {
+color.addEventListener("click", () => {
   const randomColors = randomColor();
-  // @ts-ignore
-  fart.style.backgroundColor = randomColors[0];
-  // @ts-ignore
-  fart.style.color = randomColors[1];
+  buttons.forEach((button) => {
+    // @ts-ignore
+    button.style.backgroundColor = randomColors[0];
+    // @ts-ignore
+    button.style.color = randomColors[1];
+  });
   document.body.style.backgroundColor = randomColors[2];
+});
+
+// @ts-ignore
+font.addEventListener("click", () => {
+  const randomFonts = randomFont();
+  buttons.forEach((button) => {
+    // @ts-ignore
+    button.style.fontFamily = randomFonts;
+  });
 });

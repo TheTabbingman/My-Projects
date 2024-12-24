@@ -11,7 +11,7 @@ body {
 }
 
 /* Style the #change div */
-#change {
+.buttons {
   font-size: 2rem;
   color: #333;
   background-color: #e0e0e0;
@@ -24,7 +24,7 @@ body {
 }
 
 /* Add a hover effect for fun */
-#change:hover {
+.buttons:hover {
   background-color: #d1d8e0;
   transform: scale(1.05);
   cursor: pointer;
