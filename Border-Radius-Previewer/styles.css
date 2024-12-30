@@ -1,0 +1,26 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: xxx-large;
+}
+
+#word {
+  background-color: rgb(200, 0, 0);
+  color: white;
+  border: none;
+  height: 144px;
+  width: 420px;
+  align-content: center;
+  text-align: center;
+}
+
+input[type="range"] {
+  appearance: none; /* General styling */
+  width: 350px; /* Adjust width */
+  height: 20px; /* Adjust height */
+  background: #ddd; /* Background color */
+  outline: none; /* Remove focus outline */
+}
