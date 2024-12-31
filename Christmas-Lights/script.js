@@ -12,6 +12,9 @@ const light6 = document.getElementById("light6");
 const light6_style = window.getComputedStyle(light6);
 const light7 = document.getElementById("light7");
 const light7_style = window.getComputedStyle(light7);
+const button = document.getElementById("button");
+let running = false;
+let interval = null;
 
 /**
  * Changes each light to the color of the previous light
@@ -33,4 +36,14 @@ function changeLights() {
   light7.style.backgroundColor = color6;
 }
 
-setInterval(changeLights, 250);
+button.addEventListener("click", () => {
+  if (running) {
+    clearInterval(interval);
+    interval = null;
+    button.textContent = "Start";
+  } else {
+    interval = setInterval(changeLights, 250);
+    button.textContent = "Stop";
+  }
+  running = !running;
+});
