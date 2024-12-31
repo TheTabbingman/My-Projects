@@ -20,26 +20,6 @@ let interval = null;
 let intervalAmount = 250;
 
 /**
- * Cycles each light to the color of the previous light
- */
-function cycleLights() {
-  const color1 = light1_style.getPropertyValue("background-color");
-  const color2 = light2_style.getPropertyValue("background-color");
-  const color3 = light3_style.getPropertyValue("background-color");
-  const color4 = light4_style.getPropertyValue("background-color");
-  const color5 = light5_style.getPropertyValue("background-color");
-  const color6 = light6_style.getPropertyValue("background-color");
-  const color7 = light7_style.getPropertyValue("background-color");
-  light1.style.backgroundColor = color7;
-  light2.style.backgroundColor = color1;
-  light3.style.backgroundColor = color2;
-  light4.style.backgroundColor = color3;
-  light5.style.backgroundColor = color4;
-  light6.style.backgroundColor = color5;
-  light7.style.backgroundColor = color6;
-}
-
-/**
  * Cycles brightness of each light to the brightness of the previous light
  */
 function cycleBrightness() {
