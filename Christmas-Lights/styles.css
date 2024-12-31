@@ -1,0 +1,29 @@
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+#light1 {
+  background-color: red;
+}
+#light2 {
+  background-color: blue;
+}
+#light3 {
+  background-color: purple;
+}
+#light4 {
+  background-color: orange;
+}
+#light5 {
+  background-color: green;
+}
+#light6 {
+  background-color: yellow;
+}
+#light7 {
+  background-color: pink;
+}
