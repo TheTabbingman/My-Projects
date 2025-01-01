@@ -18,7 +18,7 @@ let counter = 0;
  */
 function cycleBrightness() {
   counter++;
-  console.debug(counter);
+  console.debug("Counter: " + counter);
   lights.forEach((light) => {
     const light_style = window.getComputedStyle(light);
     if (counter > 0 && counter % 7 === 0 && light.id === "light1")
