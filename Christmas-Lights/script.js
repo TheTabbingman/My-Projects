@@ -18,7 +18,7 @@ let counter = 0;
  */
 function cycleBrightness() {
   counter++;
-  console.log(counter);
+  console.debug(counter);
   lights.forEach((light) => {
     const light_style = window.getComputedStyle(light);
     currentBrightness = light_style.getPropertyValue("filter");
@@ -29,12 +29,12 @@ function cycleBrightness() {
       currentBrightness = "brightness(0.5)";
     }
     light.style.filter = previousBrightness;
-    console.log(light.id + " previousBrightness: " + previousBrightness);
-    console.log(light.id + " currentBrightness: " + currentBrightness);
+    console.debug(light.id + " previousBrightness: " + previousBrightness);
+    console.debug(light.id + " currentBrightness: " + currentBrightness);
     previousBrightness = currentBrightness;
-    console.log(light.id + " previousBrightnessAS: " + previousBrightness);
+    console.debug(light.id + " previousBrightnessAS: " + previousBrightness);
   });
-  console.log("----------------------------------------------");
+  console.debug("----------------------------------------------");
 }
 
 button.addEventListener("click", () => {
