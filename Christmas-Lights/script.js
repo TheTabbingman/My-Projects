@@ -1,42 +1,40 @@
-const light1 = document.getElementById("light1");
-const light1_style = window.getComputedStyle(light1);
-const light2 = document.getElementById("light2");
-const light2_style = window.getComputedStyle(light2);
-const light3 = document.getElementById("light3");
-const light3_style = window.getComputedStyle(light3);
-const light4 = document.getElementById("light4");
-const light4_style = window.getComputedStyle(light4);
-const light5 = document.getElementById("light5");
-const light5_style = window.getComputedStyle(light5);
-const light6 = document.getElementById("light6");
-const light6_style = window.getComputedStyle(light6);
-const light7 = document.getElementById("light7");
-const light7_style = window.getComputedStyle(light7);
 const button = document.getElementById("button");
 const slider = document.getElementById("slider");
 const output = document.getElementById("output");
+const lights = document.querySelectorAll(".dot");
 let running = false;
 let interval = null;
 let intervalAmount = 250;
+let currentBrightness;
+
+const lastLight = lights[6];
+const lastLightStyle = window.getComputedStyle(lastLight);
+let previousBrightness = lastLightStyle.getPropertyValue("filter");
+
+let counter = 0;
 
 /**
  * Cycles brightness of each light to the brightness of the previous light
  */
 function cycleBrightness() {
-  const brightness1 = light1_style.getPropertyValue("filter");
-  const brightness2 = light2_style.getPropertyValue("filter");
-  const brightness3 = light3_style.getPropertyValue("filter");
-  const brightness4 = light4_style.getPropertyValue("filter");
-  const brightness5 = light5_style.getPropertyValue("filter");
-  const brightness6 = light6_style.getPropertyValue("filter");
-  const brightness7 = light7_style.getPropertyValue("filter");
-  light1.style.filter = brightness7;
-  light2.style.filter = brightness1;
-  light3.style.filter = brightness2;
-  light4.style.filter = brightness3;
-  light5.style.filter = brightness4;
-  light6.style.filter = brightness5;
-  light7.style.filter = brightness6;
+  counter++;
+  console.log(counter);
+  lights.forEach((light) => {
+    const light_style = window.getComputedStyle(light);
+    currentBrightness = light_style.getPropertyValue("filter");
+    if (counter > 0 && counter % 7 === 0 && light.id === "light1") {
+      previousBrightness = "brightness(2)";
+    }
+    if (counter > 0 && counter % 7 === 0 && light.id === "light7") {
+      currentBrightness = "brightness(0.5)";
+    }
+    light.style.filter = previousBrightness;
+    console.log(light.id + " previousBrightness: " + previousBrightness);
+    console.log(light.id + " currentBrightness: " + currentBrightness);
+    previousBrightness = currentBrightness;
+    console.log(light.id + " previousBrightnessAS: " + previousBrightness);
+  });
+  console.log("----------------------------------------------");
 }
 
 button.addEventListener("click", () => {
