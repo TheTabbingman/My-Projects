@@ -21,6 +21,9 @@ const blueOutput = document.getElementById("blueOutput");
 
 const lightsDropdown = document.getElementById("lightsDropdown");
 
+const sizeSlider = document.getElementById("sizeSlider");
+const sizeOutput = document.getElementById("sizeOutput");
+
 let running = false;
 let interval = null;
 let intervalAmount = 250;
@@ -38,6 +41,8 @@ const colors = new Map();
 colors.set("red", 0);
 colors.set("green", 0);
 colors.set("blue", 0);
+
+let size = 25;
 
 /**
  * Cycles brightness of each light to the brightness of the previous light
@@ -125,9 +130,8 @@ colorSliders.forEach((slider) => {
         blueOutput.innerText = "Blue: " + colors.get(currentColor);
         break;
     }
-    const dropdownValue = lightsDropdown.value;
     lights.forEach((light) => {
-      if (dropdownValue === light.id) {
+      if (lightsDropdown.value === light.id) {
         light.style.backgroundColor =
           "rgb(" +
           colors.get("red") +
@@ -141,9 +145,8 @@ colorSliders.forEach((slider) => {
 });
 
 lightsDropdown.addEventListener("input", () => {
-  const dropdownValue = lightsDropdown.value;
   lights.forEach((light) => {
-    if (dropdownValue === light.id) {
+    if (lightsDropdown.value === light.id) {
       const lightColorStyle = window.getComputedStyle(light);
       const lightColor = lightColorStyle.getPropertyValue("background-color");
       console.debug(lightColor);
@@ -158,6 +161,26 @@ lightsDropdown.addEventListener("input", () => {
       greenOutput.innerText = "Green: " + colors.get("green");
       blueSlider.value = colors.get("blue");
       blueOutput.innerText = "Blue: " + colors.get("blue");
+
+      const lightWidth = lightColorStyle.getPropertyValue("width");
+      const lightHeight = lightColorStyle.getPropertyValue("height");
+      console.log(lightWidth);
+      console.log(lightHeight);
+      if (lightWidth === lightHeight) {
+        sizeSlider.value = lightWidth.match(/\d+/g);
+        sizeOutput.innerText = "Size: " + lightWidth;
+      } else throw new Error("lightWidth doesn't equal lightHeight");
+    }
+  });
+});
+
+sizeSlider.addEventListener("input", () => {
+  size = sizeSlider.value + "px";
+  lights.forEach((light) => {
+    if (lightsDropdown.value === light.id) {
+      light.style.height = size;
+      light.style.width = size;
+      sizeOutput.innerText = "Size: " + size;
     }
   });
 });

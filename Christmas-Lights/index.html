@@ -20,9 +20,9 @@
     </div>
     <div>
       <input type="range" min="1" max="1000" value="250" id="intervalSlider" />
-    </div>
-    <div>
-      <p id="intervalOutput">Interval: 250ms</p>
+      <div>
+        <p id="intervalOutput">Interval: 250ms</p>
+      </div>
     </div>
     <div>
       <input
@@ -33,9 +33,9 @@
         value="2"
         id="brightnessSlider"
       />
-    </div>
-    <div>
-      <p id="brightnessOutput">Brightness: 2</p>
+      <div>
+        <p id="brightnessOutput">Brightness: 2</p>
+      </div>
     </div>
     <div>
       <input
@@ -46,10 +46,11 @@
         value="0.5"
         id="darknessSlider"
       />
+      <div>
+        <p id="darknessOutput">Darkness: 0.5</p>
+      </div>
     </div>
-    <div>
-      <p id="darknessOutput">Darkness: 0.5</p>
-    </div>
+
     <div>
       <label for="lights">Choose a light to change:</label>
       <select name="lights" id="lightsDropdown">
@@ -61,39 +62,44 @@
         <option value="light6">Light 6</option>
         <option value="light7">Light 7</option>
       </select>
+      <div>
+        <input
+          type="range"
+          min="0"
+          max="255"
+          value="0"
+          class="colorSliders"
+          id="redSlider"
+        />
+        <input
+          type="range"
+          min="0"
+          max="255"
+          value="0"
+          class="colorSliders"
+          id="greenSlider"
+        />
+        <input
+          type="range"
+          min="0"
+          max="255"
+          value="0"
+          class="colorSliders"
+          id="blueSlider"
+        />
+      </div>
     </div>
-    <div>
-      <input
-        type="range"
-        min="0"
-        max="255"
-        value="0"
-        class="colorSliders"
-        id="redSlider"
-      />
-      <input
-        type="range"
-        min="0"
-        max="255"
-        value="0"
-        class="colorSliders"
-        id="greenSlider"
-      />
-      <input
-        type="range"
-        min="0"
-        max="255"
-        value="0"
-        class="colorSliders"
-        id="blueSlider"
-      />
-    </div>
+
     <div>
       <span id="redOutput">Red: 0</span>
       <span id="greenOutput">Green: 0</span>
       <span id="blueOutput">Blue: 0</span>
+      <div>
+        <input type="range" min="0" max="50" value="25" id="sizeSlider" />
+      </div>
     </div>
-      <input type="range" min="0" max="50" value="25" id="sizeSlider"></>
+    <div>
+      <p id="sizeOutput">Size: 25px</p>
     </div>
   </body>
 </html>
