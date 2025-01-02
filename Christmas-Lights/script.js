@@ -1,9 +1,26 @@
 const button = document.getElementById("button");
+
 const intervalSlider = document.getElementById("intervalSlider");
 const intervalOutput = document.getElementById("intervalOutput");
+
 const lights = document.querySelectorAll(".dot");
+
 const brightnessSlider = document.getElementById("brightnessSlider");
 const brightnessOutput = document.getElementById("brightnessOutput");
+
+const darknessSlider = document.getElementById("darknessSlider");
+const darknessOutput = document.getElementById("darknessOutput");
+
+const colorSliders = document.querySelectorAll(".colorSliders");
+const redSlider = document.getElementById("redSlider");
+const redOutput = document.getElementById("redOutput");
+const greenSlider = document.getElementById("greenSlider");
+const greenOutput = document.getElementById("greenOutput");
+const blueSlider = document.getElementById("blueSlider");
+const blueOutput = document.getElementById("blueOutput");
+
+const lightsDropdown = document.getElementById("lightsDropdown");
+
 let running = false;
 let interval = null;
 let intervalAmount = 250;
@@ -15,6 +32,12 @@ let previousBrightness = lastLightStyle.getPropertyValue("filter");
 
 let counter = 0;
 let setBrightness = 2;
+let setDarkness = 0.5;
+
+const colors = new Map();
+colors.set("red", 0);
+colors.set("green", 0);
+colors.set("blue", 0);
 
 /**
  * Cycles brightness of each light to the brightness of the previous light
@@ -29,7 +52,14 @@ function cycleBrightness() {
     if (counter === 7 && light.id === "light7")
       currentBrightness = "brightness(0.5)";
     else currentBrightness = light_style.getPropertyValue("filter");
-    light.style.filter = previousBrightness;
+    const previousBrightnessValue = Number(
+      previousBrightness.match(/-?\d+(\.\d+)?/g)
+    );
+    if (previousBrightnessValue > 0.5) {
+      light.style.filter = "brightness(" + setBrightness + ")";
+    } else {
+      light.style.filter = "brightness(" + setDarkness + ")";
+    }
     console.debug(light.id + " previousBrightness: " + previousBrightness);
     console.debug(light.id + " currentBrightness: " + currentBrightness);
     previousBrightness = currentBrightness;
@@ -69,4 +99,65 @@ brightnessSlider.addEventListener("input", () => {
     interval = setInterval(cycleBrightness, intervalAmount);
   }
   brightnessOutput.innerText = "Brightness: " + brightnessSlider.value;
+});
+
+darknessSlider.addEventListener("input", () => {
+  setDarkness = darknessSlider.value;
+  if (running) {
+    if (interval !== null) clearInterval(interval);
+    interval = setInterval(cycleBrightness, intervalAmount);
+  }
+  darknessOutput.innerText = "Darkness: " + darknessSlider.value;
+});
+
+colorSliders.forEach((slider) => {
+  slider.addEventListener("input", () => {
+    const currentColor = slider.id.replace(/Slider/g, "");
+    colors.set(currentColor, slider.value);
+    switch (currentColor) {
+      case "red":
+        redOutput.innerText = "red: " + colors.get(currentColor);
+        break;
+      case "green":
+        greenOutput.innerText = "green: " + colors.get(currentColor);
+        break;
+      case "blue":
+        blueOutput.innerText = "Blue: " + colors.get(currentColor);
+        break;
+    }
+    const dropdownValue = lightsDropdown.value;
+    lights.forEach((light) => {
+      if (dropdownValue === light.id) {
+        light.style.backgroundColor =
+          "rgb(" +
+          colors.get("red") +
+          ", " +
+          colors.get("green") +
+          ", " +
+          colors.get("blue");
+      }
+    });
+  });
+});
+
+lightsDropdown.addEventListener("input", () => {
+  const dropdownValue = lightsDropdown.value;
+  lights.forEach((light) => {
+    if (dropdownValue === light.id) {
+      const lightColorStyle = window.getComputedStyle(light);
+      const lightColor = lightColorStyle.getPropertyValue("background-color");
+      console.debug(lightColor);
+      const tempColors = lightColor.match(/\d+/g);
+      colors.set("red", tempColors[0]);
+      colors.set("green", tempColors[1]);
+      colors.set("blue", tempColors[2]);
+      console.debug(colors);
+      redSlider.value = colors.get("red");
+      redOutput.innerText = "Red: " + colors.get("red");
+      greenSlider.value = colors.get("green");
+      greenOutput.innerText = "Green: " + colors.get("green");
+      blueSlider.value = colors.get("blue");
+      blueOutput.innerText = "Blue: " + colors.get("blue");
+    }
+  });
 });
