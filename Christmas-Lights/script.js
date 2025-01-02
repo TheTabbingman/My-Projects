@@ -1,7 +1,9 @@
 const button = document.getElementById("button");
-const slider = document.getElementById("slider");
-const output = document.getElementById("output");
+const intervalSlider = document.getElementById("intervalSlider");
+const intervalOutput = document.getElementById("intervalOutput");
 const lights = document.querySelectorAll(".dot");
+const brightnessSlider = document.getElementById("brightnessSlider");
+const brightnessOutput = document.getElementById("brightnessOutput");
 let running = false;
 let interval = null;
 let intervalAmount = 250;
@@ -12,6 +14,7 @@ const lastLightStyle = window.getComputedStyle(lastLight);
 let previousBrightness = lastLightStyle.getPropertyValue("filter");
 
 let counter = 0;
+let setBrightness = 2;
 
 /**
  * Cycles brightness of each light to the brightness of the previous light
@@ -22,7 +25,7 @@ function cycleBrightness() {
   lights.forEach((light) => {
     const light_style = window.getComputedStyle(light);
     if (counter > 0 && counter % 7 === 0 && light.id === "light1")
-      previousBrightness = "brightness(2)";
+      previousBrightness = "brightness(" + setBrightness + ")";
     if (counter > 0 && counter % 7 === 0 && light.id === "light7")
       currentBrightness = "brightness(0.5)";
     else currentBrightness = light_style.getPropertyValue("filter");
@@ -47,11 +50,20 @@ button.addEventListener("click", () => {
   running = !running;
 });
 
-slider.addEventListener("input", () => {
-  intervalAmount = slider.value;
+intervalSlider.addEventListener("input", () => {
+  intervalAmount = intervalSlider.value;
   if (running) {
     if (interval !== null) clearInterval(interval);
     interval = setInterval(cycleBrightness, intervalAmount);
   }
-  output.innerText = "Interval: " + slider.value + "ms";
+  intervalOutput.innerText = "Interval: " + intervalSlider.value + "ms";
+});
+
+brightnessSlider.addEventListener("input", () => {
+  setBrightness = brightnessSlider.value;
+  if (running) {
+    if (interval !== null) clearInterval(interval);
+    interval = setInterval(cycleBrightness, intervalAmount);
+  }
+  brightnessOutput.innerText = "Brightness: " + brightnessSlider.value;
 });
