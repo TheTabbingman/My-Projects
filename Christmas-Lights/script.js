@@ -24,9 +24,9 @@ function cycleBrightness() {
   console.debug("Counter: " + counter);
   lights.forEach((light) => {
     const light_style = window.getComputedStyle(light);
-    if (counter > 0 && counter % 7 === 0 && light.id === "light1")
+    if (counter === 7 && light.id === "light1")
       previousBrightness = "brightness(" + setBrightness + ")";
-    if (counter > 0 && counter % 7 === 0 && light.id === "light7")
+    if (counter === 7 && light.id === "light7")
       currentBrightness = "brightness(0.5)";
     else currentBrightness = light_style.getPropertyValue("filter");
     light.style.filter = previousBrightness;
@@ -35,6 +35,9 @@ function cycleBrightness() {
     previousBrightness = currentBrightness;
     console.debug(light.id + " previousBrightnessAS: " + previousBrightness);
   });
+  if (counter === 7) {
+    counter = 0;
+  }
   console.debug("----------------------------------------------");
 }
 
