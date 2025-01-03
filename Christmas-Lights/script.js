@@ -3,7 +3,7 @@ const button = document.getElementById("button");
 const intervalSlider = document.getElementById("intervalSlider");
 const intervalOutput = document.getElementById("intervalOutput");
 
-const lights = document.querySelectorAll(".dot");
+let lights = document.querySelectorAll(".dot");
 
 const brightnessSlider = document.getElementById("brightnessSlider");
 const brightnessOutput = document.getElementById("brightnessOutput");
@@ -23,6 +23,10 @@ const lightsDropdown = document.getElementById("lightsDropdown");
 
 const sizeSlider = document.getElementById("sizeSlider");
 const sizeOutput = document.getElementById("sizeOutput");
+
+const addButton = document.getElementById("addButton");
+const removeButton = document.getElementById("removeButton");
+const lightsContainer = document.getElementById("lightsContainer");
 
 let running = false;
 let interval = null;
@@ -164,8 +168,8 @@ lightsDropdown.addEventListener("input", () => {
 
       const lightWidth = lightColorStyle.getPropertyValue("width");
       const lightHeight = lightColorStyle.getPropertyValue("height");
-      console.log(lightWidth);
-      console.log(lightHeight);
+      console.debug(lightWidth);
+      console.debug(lightHeight);
       if (lightWidth === lightHeight) {
         sizeSlider.value = lightWidth.match(/\d+/g);
         sizeOutput.innerText = "Size: " + lightWidth;
@@ -183,4 +187,21 @@ sizeSlider.addEventListener("input", () => {
       sizeOutput.innerText = "Size: " + size;
     }
   });
+});
+
+addButton.addEventListener("click", () => {
+  const originalDiv = document.getElementById("lights");
+  const copiedDiv = originalDiv.cloneNode(true);
+  lightsContainer.append(copiedDiv);
+  lights = document.querySelectorAll(".dot");
+});
+
+removeButton.addEventListener("click", () => {
+  const allDivs = lightsContainer.querySelectorAll(".lights");
+  if (allDivs.length > 1) {
+    const lastDiv = allDivs[allDivs.length - 1];
+    lastDiv.remove();
+  } else {
+    console.warn("Cannot remove original div");
+  }
 });

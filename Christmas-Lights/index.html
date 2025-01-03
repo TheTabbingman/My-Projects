@@ -8,15 +8,21 @@
     <script defer src="script.js"></script>
   </head>
   <body>
-    <span class="dot" id="light1"></span>
-    <span class="dot" id="light2"></span>
-    <span class="dot" id="light3"></span>
-    <span class="dot" id="light4"></span>
-    <span class="dot" id="light5"></span>
-    <span class="dot" id="light6"></span>
-    <span class="dot" id="light7"></span>
+    <div id="lightsContainer">
+      <div class="lights" id="lights">
+        <span class="dot" id="light1"></span>
+        <span class="dot" id="light2"></span>
+        <span class="dot" id="light3"></span>
+        <span class="dot" id="light4"></span>
+        <span class="dot" id="light5"></span>
+        <span class="dot" id="light6"></span>
+        <span class="dot" id="light7"></span>
+      </div>
+    </div>
     <div>
       <button id="button">Start</button>
+      <button id="addButton">Add Row</button>
+      <button id="removeButton">Remove Row</button>
     </div>
     <div>
       <input type="range" min="1" max="1000" value="250" id="intervalSlider" />
