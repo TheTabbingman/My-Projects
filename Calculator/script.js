@@ -1,27 +1,101 @@
 const output = document.getElementById("output");
+const previousOutput = document.getElementById("previousOutput");
+const operandDisplay = document.getElementById("operandDisplay");
+const previousCurrent = document.getElementById("previousCurrent");
+
 const numButtons = document.querySelectorAll(".numButtons");
+const periodButton = document.getElementById("periodButton");
+
 const clearButton = document.getElementById("clearButton");
-const addButton = document.getElementById("addButton");
+const deleteButton = document.getElementById("deleteButton");
 const equalsButton = document.getElementById("equalsButton");
+
+const operationButtons = document.querySelectorAll(".operationButtons");
 
 let numberBuffer = "";
 let previousNumberBuffer = "";
 let operand = "";
+let previousCurrentBuffer = "";
+let wasEquals = false;
 
-function appendNumber(buttonId) {
-  numberBuffer += buttonId;
-  output.innerText = numberBuffer;
+function appendNumber(button) {
+  if (button === "0" && numberBuffer.length === 0) return;
+  numberBuffer += button;
+}
+
+function updateOutput() {
+  if (numberBuffer === "") output.innerText = "0";
+  else output.innerText = numberBuffer;
+  if (previousNumberBuffer === "") previousOutput.innerText = "0";
+  else previousOutput.innerText = previousNumberBuffer;
+  if (operand !== "") operandDisplay.innerText = operand;
+  else operandDisplay.innerText = "";
+  previousCurrent.innerText = previousCurrentBuffer;
 }
 
 function clearOutput() {
   numberBuffer = "";
   previousNumberBuffer = "";
-  output.innerText = "0";
+  operand = "";
+  previousCurrentBuffer = "";
+  updateOutput();
+}
+
+function operation(operation) {
+  if (numberBuffer !== "" && previousNumberBuffer === "") {
+    previousNumberBuffer = numberBuffer;
+    numberBuffer = "";
+  }
+
+  if (operation === "+") operand = "+";
+  if (operation === "-") operand = "-";
+  if (operation === "×") operand = "×";
+  if (operation === "÷") operand = "÷";
+}
+
+function calculate(isEqualsButton = false) {
+  if (numberBuffer !== "" && previousNumberBuffer !== "") {
+    if (isEqualsButton) previousCurrentBuffer = numberBuffer;
+    const number = Number(numberBuffer);
+    const previousNumber = Number(previousNumberBuffer);
+    switch (operand) {
+      case "+":
+        numberBuffer = number + previousNumber;
+        break;
+      case "-":
+        numberBuffer = previousNumber - number;
+        break;
+      case "×":
+        numberBuffer = previousNumber * number;
+        break;
+      case "÷":
+        numberBuffer = previousNumber / number;
+        break;
+    }
+    if (!isEqualsButton) operand = "";
+    if (!isEqualsButton) previousNumberBuffer = "";
+    if (isEqualsButton) wasEquals = true;
+    else wasEquals = false;
+  }
 }
 
 numButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    appendNumber(button.id);
+    appendNumber(button.innerText);
+    updateOutput();
+  });
+});
+
+operationButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (wasEquals) {
+      previousNumberBuffer = numberBuffer;
+      numberBuffer = "";
+      previousCurrentBuffer = "";
+    }
+    if (numberBuffer !== "" && previousNumberBuffer !== "") calculate();
+    operation(button.innerText);
+    updateOutput();
   });
 });
 
@@ -29,26 +103,20 @@ clearButton.addEventListener("click", () => {
   clearOutput();
 });
 
-addButton.addEventListener("click", () => {
-  previousNumberBuffer = numberBuffer;
-  numberBuffer = "";
-  output.innerText = "0";
-  operand = "+";
+equalsButton.addEventListener("click", () => {
+  calculate(true);
+  updateOutput();
 });
 
-equalsButton.addEventListener("click", () => {
-  if (!isNaN(numberBuffer) && !isNaN(previousNumberBuffer)) {
-    let result;
-    const number = Number(numberBuffer);
-    const previousNumber = Number(previousNumberBuffer);
-    switch (operand) {
-      case "+":
-        result = number + previousNumber;
-        break;
-    }
-    console.log(result);
-    output.innerText = result;
-    numberBuffer = "";
-    previousNumberBuffer = "";
+periodButton.addEventListener("click", () => {
+  if (!numberBuffer.includes(".")) {
+    if (numberBuffer === "") numberBuffer += "0.";
+    else numberBuffer += ".";
+    updateOutput();
   }
+});
+
+deleteButton.addEventListener("click", () => {
+  numberBuffer = numberBuffer.slice(0, numberBuffer.length - 1);
+  updateOutput();
 });
