@@ -18,11 +18,18 @@ let operand = "";
 let previousCurrentBuffer = "";
 let wasEquals = false;
 
+/**
+ * Append input string to numberBuffer
+ * @param {string} button - Input button.innerText
+ */
 function appendNumber(button) {
   if (button === "0" && numberBuffer.length === 0) return;
   numberBuffer += button;
 }
 
+/**
+ * Update output display
+ */
 function updateOutput() {
   if (numberBuffer === "") output.innerText = "0";
   else output.innerText = numberBuffer;
@@ -33,6 +40,9 @@ function updateOutput() {
   previousCurrent.innerText = previousCurrentBuffer;
 }
 
+/**
+ * Clear all buffers and update output
+ */
 function clearOutput() {
   numberBuffer = "";
   previousNumberBuffer = "";
@@ -41,6 +51,10 @@ function clearOutput() {
   updateOutput();
 }
 
+/**
+ * Set operand based on button input
+ * @param {string} operation - Input button.innerText
+ */
 function operation(operation) {
   if (numberBuffer !== "" && previousNumberBuffer === "") {
     previousNumberBuffer = numberBuffer;
@@ -53,6 +67,10 @@ function operation(operation) {
   if (operation === "÷") operand = "÷";
 }
 
+/**
+ * Perform calculation based on operand
+ * @param {boolean} isEqualsButton - Whether this function is called by equalsButton
+ */
 function calculate(isEqualsButton = false) {
   if (numberBuffer !== "" && previousNumberBuffer !== "") {
     if (isEqualsButton) previousCurrentBuffer = numberBuffer;
