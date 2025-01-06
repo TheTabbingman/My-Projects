@@ -1,0 +1,115 @@
+/* General Reset */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f3f4f6;
+    color: #333;
+    text-align: center;
+}
+
+/* Calculator Container */
+div {
+    margin: 10px 0;
+}
+
+/* Display */
+div:first-of-type {
+    background-color: #fff;
+    padding: 10px;
+    width: 280px;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#previousOutput,
+#operandDisplay,
+#previousCurrent {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+#output {
+    font-size: 2rem;
+    color: #333;
+    background-color: #f9fafb;
+    padding: 10px;
+    width: 260px;
+    border-radius: 4px;
+    display: inline-block;
+    text-align: right;
+}
+
+/* Buttons */
+button {
+    width: 60px;
+    height: 60px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    margin: 5px 2px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+/* Number Buttons */
+.numButtons {
+    background-color: #e0e7ff;
+    color: #1e3a8a;
+}
+
+.numButtons:hover {
+    background-color: #c7d2fe;
+}
+
+/* Operation Buttons */
+.operationButtons {
+    background-color: #fde047;
+    color: #92400e;
+}
+
+.operationButtons:hover {
+    background-color: #fbbf24;
+}
+
+/* Special Buttons */
+#clearButton,
+#deleteButton {
+    background-color: #f87171;
+    color: #fff;
+}
+
+#clearButton:hover,
+#deleteButton:hover {
+    background-color: #ef4444;
+}
+
+#equalsButton {
+    background-color: #34d399;
+    color: #fff;
+}
+
+#equalsButton:hover {
+    background-color: #10b981;
+}
+
+#periodButton {
+    background-color: #60a5fa;
+    color: #fff;
+}
+
+#periodButton:hover {
+    background-color: #3b82f6;
+}
+
+/* Link */
+a {
+    text-decoration: none;
+    color: #3b82f6;
+    font-size: 1rem;
+}
+
+a:hover {
+    text-decoration: underline;
+}
