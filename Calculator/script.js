@@ -152,7 +152,7 @@ periodButton.addEventListener("click", () => {
 deleteButton.addEventListener("click", () => {
   calculator.numberBuffer = calculator.numberBuffer.slice(
     0,
-    calculator.numberBuffer.length - 1
+    calculator.numberBuffer.length - 1,
   );
   calculator.updateOutput();
 });
