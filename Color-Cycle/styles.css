@@ -1,0 +1,6 @@
+#colorBox {
+    background-color: orange;
+    width: 200px;
+    height: 200px;
+    transition: background-color 0.25s ease-in-out;
+}
