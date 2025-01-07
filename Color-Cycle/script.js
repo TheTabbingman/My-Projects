@@ -1,6 +1,7 @@
 const startingColorInput = document.getElementById("startingColor");
 const colorBox = document.getElementById("colorBox");
 const startButton = document.getElementById("startButton");
+const errorOutput = document.getElementById("error");
 
 const redOffset = document.getElementById("redOffset");
 const greenOffset = document.getElementById("greenOffset");
@@ -8,6 +9,7 @@ const blueOffset = document.getElementById("blueOffset");
 
 const intervalInput = document.getElementById("intervalInput");
 const intervalApplyButton = document.getElementById("applyInterval");
+const currentColorOutput = document.getElementById("currentColor");
 
 class ColorCycler {
   constructor() {
@@ -18,6 +20,8 @@ class ColorCycler {
 
   setColor(inputColorDictionary) {
     colorBox.style.backgroundColor = `rgb(${inputColorDictionary["red"]}, ${inputColorDictionary["green"]}, ${inputColorDictionary["blue"]})`;
+    const colorBoxStyle = window.getComputedStyle(colorBox);
+    currentColorOutput.innerText = colorBoxStyle.backgroundColor
   }
 
   offsetColor() {
@@ -55,28 +59,34 @@ class ColorCycler {
     );
     let rgbStartingColor;
     if (startingColorHexTemp) {
+      errorOutput.innerText = "";
       rgbStartingColor = {
         red: parseInt(startingColorHexTemp[1], 16),
         green: parseInt(startingColorHexTemp[2], 16),
         blue: parseInt(startingColorHexTemp[3], 16),
       };
-    }
-    if (startingColorRgbTemp) {
+      return rgbStartingColor;
+    } else if (startingColorRgbTemp) {
+      errorOutput.innerText = "";
       rgbStartingColor = {
         red: Number(startingColorRgbTemp[1]),
         green: Number(startingColorRgbTemp[2]),
         blue: Number(startingColorRgbTemp[3]),
       };
+      return rgbStartingColor;
+    } else {
+      errorOutput.innerText = "Not a valid input";
+      return null;
     }
-    return rgbStartingColor;
   }
 
   changeInterval() {
-    this.intervalAmount = intervalInput.value;
+    if (intervalInput.value === "") this.intervalAmount = 250;
+    else this.intervalAmount = intervalInput.value;
     colorBox.style.transitionDuration = `${this.intervalAmount / 1000}s`;
     if (this.running) {
       clearInterval(this.offsetInterval);
-      this.offsetInterval = setInterval(this.offsetColor, this.intervalAmount);
+      this.offsetInterval = setInterval(this.offsetColor.bind(colorCycler), this.intervalAmount);
     }
   }
 }
@@ -85,7 +95,9 @@ const colorCycler = new ColorCycler();
 
 startButton.addEventListener("click", () => {
   if (!colorCycler.running) {
-    colorCycler.setColor(colorCycler.formatGlobalColor());
+    const formattedColor = colorCycler.formatGlobalColor();
+    if (formattedColor) colorCycler.setColor(formattedColor);
+    else return;
     colorCycler.offsetInterval = setInterval(
       colorCycler.offsetColor.bind(colorCycler),
       colorCycler.intervalAmount,
