@@ -21,7 +21,7 @@ class ColorCycler {
   setColor(inputColorDictionary) {
     colorBox.style.backgroundColor = `rgb(${inputColorDictionary["red"]}, ${inputColorDictionary["green"]}, ${inputColorDictionary["blue"]})`;
     const colorBoxStyle = window.getComputedStyle(colorBox);
-    currentColorOutput.innerText = colorBoxStyle.backgroundColor
+    currentColorOutput.innerText = colorBoxStyle.backgroundColor;
   }
 
   offsetColor() {
@@ -86,7 +86,10 @@ class ColorCycler {
     colorBox.style.transitionDuration = `${this.intervalAmount / 1000}s`;
     if (this.running) {
       clearInterval(this.offsetInterval);
-      this.offsetInterval = setInterval(this.offsetColor.bind(colorCycler), this.intervalAmount);
+      this.offsetInterval = setInterval(
+        this.offsetColor.bind(colorCycler),
+        this.intervalAmount,
+      );
     }
   }
 }
