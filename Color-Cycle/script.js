@@ -6,28 +6,27 @@ const redOffset = document.getElementById("redOffset");
 const greenOffset = document.getElementById("greenOffset");
 const blueOffset = document.getElementById("blueOffset");
 
+const intervalInput = document.getElementById("intervalInput");
+const intervalApplyButton = document.getElementById("applyInterval");
+
 let running = false;
 let offsetInterval = null;
+let intervalAmount = 250;
 
 function setColor(inputColorDictionary) {
-  const formattedStartingColor = `rgb(${inputColorDictionary["red"]}, ${inputColorDictionary["green"]}, ${inputColorDictionary["blue"]})`;
-  colorBox.style.backgroundColor = formattedStartingColor;
+  colorBox.style.backgroundColor = `rgb(${inputColorDictionary["red"]}, ${inputColorDictionary["green"]}, ${inputColorDictionary["blue"]})`;
 }
 
 function offsetColor() {
-  console.log("farts");
   const redOffsetValue = redOffset.value;
   const greenOffsetValue = greenOffset.value;
   const blueOffsetValue = blueOffset.value;
   const colorBoxStyle = window.getComputedStyle(colorBox);
-  console.log("Transition: " + colorBoxStyle.transition);
 
   const colorBoxStyleDictionary = convertToRgb(colorBoxStyle.backgroundColor);
-  console.log(colorBoxStyleDictionary);
   colorBoxStyleDictionary["red"] += Number(redOffsetValue);
   colorBoxStyleDictionary["green"] += Number(greenOffsetValue);
   colorBoxStyleDictionary["blue"] += Number(blueOffsetValue);
-  console.log(colorBoxStyleDictionary);
   setColor(colorBoxStyleDictionary);
 }
 
@@ -51,7 +50,6 @@ function formatGlobalColor() {
   );
   let rgbStartingColor;
   if (startingColorHexTemp) {
-    console.log(startingColorHexTemp);
     rgbStartingColor = {
       red: parseInt(startingColorHexTemp[1], 16),
       green: parseInt(startingColorHexTemp[2], 16),
@@ -68,10 +66,19 @@ function formatGlobalColor() {
   return rgbStartingColor;
 }
 
+function changeInterval() {
+  intervalAmount = intervalInput.value;
+  colorBox.style.transitionDuration = `${intervalAmount / 1000}s`;
+  if (running) {
+    clearInterval(offsetInterval);
+    offsetInterval = setInterval(offsetColor, intervalAmount);
+  }
+}
+
 startButton.addEventListener("click", () => {
   if (!running) {
     setColor(formatGlobalColor());
-    offsetInterval = setInterval(offsetColor, 250);
+    offsetInterval = setInterval(offsetColor, intervalAmount);
     startButton.innerText = "Stop";
   } else {
     clearInterval(offsetInterval);
@@ -80,3 +87,5 @@ startButton.addEventListener("click", () => {
   }
   running = !running;
 });
+
+intervalApplyButton.addEventListener("click", changeInterval);
