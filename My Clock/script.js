@@ -25,8 +25,11 @@ function updateTime(format) {
 }
 
 let format = "12-hour";
+
 updateTime(format);
+
 setInterval(() => updateTime(format), 1000);
+
 const button = document.getElementById("button");
 button.addEventListener("click", () => {
   switch (format) {
