@@ -1,3 +1,6 @@
+const btn = document.getElementById("button");
+const input = document.querySelector("input");
+
 function updateNumbers(id, text) {
   document.getElementById(id).textContent = text;
 }
@@ -24,3 +27,7 @@ function dollars2Cents(dollars) {
   updateNumbers("nickels", "Nickels: " + nickels);
   updateNumbers("pennies", "Pennies: " + pennies);
 }
+
+btn.addEventListener("click", () => {
+  dollars2Cents(input.value);
+});
