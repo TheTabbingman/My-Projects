@@ -44,10 +44,10 @@ function random(min, max) {
  * @returns {string[]} - Array of random colors
  */
 function randomColor() {
-  const fartBackgroundColor = colors[random(0, 9)];
-  let fartColor = colors[random(0, 9)];
+  const fartBackgroundColor = colors[random(0, colors.length - 1)];
+  let fartColor = colors[random(0, colors.length - 1)];
   while (fartColor === fartBackgroundColor) {
-    fartColor = colors[random(0, 9)];
+    fartColor = colors[random(0, colors.length - 1)];
   }
   let backgroundColor = colors[random(0, colors.length - 1)];
   while (backgroundColor === fartBackgroundColor) {
@@ -61,8 +61,7 @@ function randomColor() {
  * @returns {string} - Random font
  */
 function randomFont() {
-  const font = fonts[random(0, fonts.length - 1)];
-  return font;
+  return fonts[random(0, fonts.length - 1)];
 }
 
 // @ts-ignore
