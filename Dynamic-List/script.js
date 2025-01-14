@@ -1,5 +1,9 @@
 const items = document.getElementById("items");
 
+/**
+ * Appends a new item to the end of items list
+ * @param {any} e - Event listener
+ */
 function appendList(e) {
   e.preventDefault();
   const input = document.getElementById("inputItem").value;
@@ -17,6 +21,10 @@ function appendList(e) {
   items.appendChild(newListItem);
 }
 
+/**
+ * Deletes item that is the parent of the delete button after checking that the event was created by a button
+ * @param {any} e - Event listener
+ */
 function deleteItem(e) {
   if (!e.target.classList.contains("delete")) return;
 
