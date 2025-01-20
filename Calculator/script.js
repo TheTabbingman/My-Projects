@@ -1,30 +1,11 @@
-const output = document.getElementById("output");
-const previousOutput = document.getElementById("previousOutput");
-const operandDisplay = document.getElementById("operandDisplay");
-const previousCurrent = document.getElementById("previousCurrent");
-
-const numButtons = document.querySelectorAll(".numButtons");
-const periodButton = document.getElementById("periodButton");
-
-const clearButton = document.getElementById("clearButton");
-const deleteButton = document.getElementById("deleteButton");
-const equalsButton = document.getElementById("equalsButton");
-
-const operationButtons = document.querySelectorAll(".operationButtons");
-
 class Calculator {
   #operand;
-  #wasEquals;
   constructor() {
     this.numberBuffer = "";
     this.previousNumberBuffer = "";
     this.#operand = "";
     this.previousCurrentBuffer = "";
-    this.#wasEquals = false;
-  }
-
-  get wasEquals() {
-    return this.#wasEquals;
+    this.wasEquals = false;
   }
 
   /**
@@ -40,12 +21,19 @@ class Calculator {
    * Update output display
    */
   updateOutput() {
+    const output = document.getElementById("output");
     if (this.numberBuffer === "") output.innerText = "0";
     else output.innerText = this.numberBuffer;
+
+    const previousOutput = document.getElementById("previousOutput");
     if (this.previousNumberBuffer === "") previousOutput.innerText = "0";
     else previousOutput.innerText = this.previousNumberBuffer;
+
+    const operandDisplay = document.getElementById("operandDisplay");
     if (this.#operand !== "") operandDisplay.innerText = this.#operand;
     else operandDisplay.innerText = "";
+
+    const previousCurrent = document.getElementById("previousCurrent");
     previousCurrent.innerText = this.previousCurrentBuffer;
   }
 
@@ -101,13 +89,14 @@ class Calculator {
       }
       if (!isEqualsButton) this.#operand = "";
       if (!isEqualsButton) this.previousNumberBuffer = "";
-      this.#wasEquals = isEqualsButton;
+      this.wasEquals = isEqualsButton;
     }
   }
 }
 
 const calculator = new Calculator();
 
+const numButtons = document.querySelectorAll(".numButtons");
 numButtons.forEach((button) => {
   button.addEventListener("click", () => {
     calculator.appendNumber(button.innerText);
@@ -115,12 +104,14 @@ numButtons.forEach((button) => {
   });
 });
 
+const operationButtons = document.querySelectorAll(".operationButtons");
 operationButtons.forEach((button) => {
   button.addEventListener("click", () => {
     if (calculator.wasEquals) {
       calculator.previousNumberBuffer = calculator.numberBuffer;
       calculator.numberBuffer = "";
       calculator.previousCurrentBuffer = "";
+      calculator.wasEquals = false;
     }
     if (
       calculator.numberBuffer !== "" &&
@@ -132,15 +123,18 @@ operationButtons.forEach((button) => {
   });
 });
 
+const clearButton = document.getElementById("clearButton");
 clearButton.addEventListener("click", () => {
   calculator.clearOutput();
 });
 
+const equalsButton = document.getElementById("equalsButton");
 equalsButton.addEventListener("click", () => {
   calculator.calculate(true);
   calculator.updateOutput();
 });
 
+const periodButton = document.getElementById("periodButton");
 periodButton.addEventListener("click", () => {
   if (!calculator.numberBuffer.includes(".")) {
     if (calculator.numberBuffer === "") calculator.numberBuffer += "0.";
@@ -149,6 +143,7 @@ periodButton.addEventListener("click", () => {
   }
 });
 
+const deleteButton = document.getElementById("deleteButton");
 deleteButton.addEventListener("click", () => {
   calculator.numberBuffer = calculator.numberBuffer.slice(
     0,
