@@ -9,8 +9,7 @@ class Timer {
     setInterval(() => this.timer(), 1000);
   }
   timer() {
-    const setTime = this.timerElement.children[3].innerText;
-    const setTimeObject = new Date(setTime);
+    const setTimeObject = new Date(this.time);
     this.rawTime = setTimeObject - Date.now();
   }
 }
@@ -39,7 +38,15 @@ class UI {
     timerTimer.className = "timers";
 
     const timerTime = document.createElement("h6");
-    timerTime.appendChild(document.createTextNode(timer.time));
+    const date = new Date(timer.time);
+    const options = {
+      dateStyle: "full",
+      timeStyle: "long",
+    };
+    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+      date,
+    );
+    timerTime.appendChild(document.createTextNode(formattedDate));
     timerTime.className = "setTime";
 
     newTimer.appendChild(deleteBtn);
@@ -47,7 +54,7 @@ class UI {
     newTimer.appendChild(timerTimer);
     newTimer.appendChild(timerTime);
     timerList.appendChild(newTimer);
-    timer.timerElement = newTimer;
+    timer.timerElement = timerTimer;
   }
 
   static formatTime(rawTimeDifference) {
@@ -62,7 +69,7 @@ class UI {
 
   static updateTimers() {
     Timer.timers.forEach((timer) => {
-      timer.timerElement.children[2].innerText = UI.formatTime(timer.rawTime);
+      timer.timerElement.innerText = UI.formatTime(timer.rawTime);
     });
   }
 
