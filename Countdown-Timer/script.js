@@ -1,5 +1,6 @@
 class Timer {
   static timers = [];
+  static timerInterval = null;
   constructor(title, time) {
     this.title = title;
     this.time = time;
@@ -20,7 +21,18 @@ class UI {
     currentDate.setUTCHours(0, 0, 0, 0);
     document.getElementById("date").valueAsDate = currentDate;
   }
+  static loadTimers() {
+    const timers = Store.getTimers();
+
+    if (timers.length === 0) return;
+
+    timers.forEach((timer) => {
+      const timerObj = new Timer(timer.title, timer.time);
+      UI.addTimer(timerObj);
+    });
+  }
   static addTimer(timer) {
+    Timer.timers.push(timer);
     const timerList = document.getElementById("timerList");
 
     const newTimer = document.createElement("div");
@@ -55,6 +67,8 @@ class UI {
     newTimer.appendChild(timerTime);
     timerList.appendChild(newTimer);
     timer.timerElement = timerTimer;
+    if (!Timer.timerInterval)
+      Timer.timerInterval = setInterval(UI.updateTimers, 1000);
   }
 
   static formatTime(rawTimeDifference) {
@@ -81,6 +95,12 @@ class UI {
       if (timer.title === e.target.nextSibling.innerText)
         Timer.timers.splice(i, 1);
     });
+
+    // If there are no timers clear the interval
+    if (Timer.timers.length === 0) {
+      clearInterval(Timer.timerInterval);
+      Timer.timerInterval = null;
+    }
   }
   static showAlert(msg) {
     const div = document.createElement("div");
@@ -94,7 +114,34 @@ class UI {
   }
 }
 
-setInterval(UI.updateTimers, 1000);
+class Store {
+  static getTimers() {
+    let timers;
+    if (localStorage.getItem("timers") === null) timers = [];
+    else timers = JSON.parse(localStorage.getItem("timers"));
+    return timers;
+  }
+  static addTimer(timer) {
+    const timers = Store.getTimers();
+    const strippedTimer = {
+      title: timer.title,
+      time: timer.time,
+    };
+    timers.push(strippedTimer);
+    localStorage.setItem("timers", JSON.stringify(timers));
+  }
+  static removeTimer(e) {
+    if (!e.target.classList.contains("delete")) return;
+
+    const timers = Store.getTimers();
+    timers.forEach((timer, i) => {
+      if (timer.title === e.target.nextSibling.innerText) timers.splice(i, 1);
+    });
+    localStorage.setItem("timers", JSON.stringify(timers));
+  }
+}
+
+document.addEventListener("DOMContentLoaded", UI.loadTimers);
 
 addEventListener("submit", (e) => {
   e.preventDefault();
@@ -109,7 +156,7 @@ addEventListener("submit", (e) => {
     UI.showAlert("Not in the future.");
     return;
   }
-  for (const timer of Timer.timers) {
+  for (const timer of Store.getTimers()) {
     if (title === timer.title) {
       UI.showAlert("Cannot have duplicate titles.");
       return;
@@ -117,10 +164,13 @@ addEventListener("submit", (e) => {
   }
 
   const timer = new Timer(title, time);
-  Timer.timers.push(timer);
   UI.addTimer(timer);
+  Store.addTimer(timer);
   timer.timer();
   UI.updateTimers();
 });
 
 document.getElementById("timerList").addEventListener("click", UI.removeTimer);
+document
+  .getElementById("timerList")
+  .addEventListener("click", Store.removeTimer);
