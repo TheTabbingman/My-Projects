@@ -1,4 +1,5 @@
 class Timer {
+  static timers = [];
   constructor(title, time) {
     this.title = title;
     this.time = time;
@@ -15,7 +16,7 @@ class Timer {
 }
 
 class UI {
-  static init() {
+  static {
     const currentDate = new Date();
     currentDate.setUTCHours(0, 0, 0, 0);
     document.getElementById("date").valueAsDate = currentDate;
@@ -60,7 +61,7 @@ class UI {
   }
 
   static updateTimers() {
-    timers.forEach((timer) => {
+    Timer.timers.forEach((timer) => {
       timer.timerElement.children[2].innerText = UI.formatTime(timer.rawTime);
     });
   }
@@ -69,8 +70,9 @@ class UI {
     if (!e.target.classList.contains("delete")) return;
 
     e.target.parentElement.remove();
-    timers.forEach((timer, i) => {
-      if (timer.title === e.target.nextSibling.innerText) timers.splice(i, 1);
+    Timer.timers.forEach((timer, i) => {
+      if (timer.title === e.target.nextSibling.innerText)
+        Timer.timers.splice(i, 1);
     });
   }
   static showAlert(msg) {
@@ -85,9 +87,6 @@ class UI {
   }
 }
 
-UI.init();
-
-const timers = [];
 setInterval(UI.updateTimers, 1000);
 
 addEventListener("submit", (e) => {
@@ -103,7 +102,7 @@ addEventListener("submit", (e) => {
     UI.showAlert("Not in the future.");
     return;
   }
-  for (const timer of timers) {
+  for (const timer of Timer.timers) {
     if (title === timer.title) {
       UI.showAlert("Cannot have duplicate titles.");
       return;
@@ -111,7 +110,7 @@ addEventListener("submit", (e) => {
   }
 
   const timer = new Timer(title, time);
-  timers.push(timer);
+  Timer.timers.push(timer);
   UI.addTimer(timer);
   timer.timer();
   UI.updateTimers();
