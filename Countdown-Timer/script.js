@@ -4,48 +4,31 @@ class Timer {
     this.time = time;
     this.timerElement = null;
     this.rawTime = null;
+
+    setInterval(() => this.timer(), 1000);
   }
   timer() {
-    const timer = this.timerElement.children[1];
-    const setTime = this.timerElement.children[2].innerText;
+    const setTime = this.timerElement.children[3].innerText;
     const setTimeObject = new Date(setTime);
     this.rawTime = setTimeObject - Date.now();
-  }
-  oldTimer() {
-    const containers = document.querySelectorAll(".timerContainers");
-    const setTime = document.querySelectorAll(".setTime");
-    const timers = document.querySelectorAll(".timers");
-
-    const timeBuffer = [];
-    setTime.forEach((time) => {
-      timeBuffer.push(time.innerText);
-    });
-    console.log(timeBuffer);
-
-    timeBuffer.forEach((time, i) => {
-      const setDateObject = new Date(time);
-      const rawTimeDifference = setDateObject - Date.now();
-      const timeFormatted = UI.formatTime(rawTimeDifference);
-      console.log(`timeDifference ${timeFormatted}`);
-      UI.updateTimer(i, timers, timeFormatted);
-    });
   }
 }
 
 class UI {
-  constructor() {
+  static init() {
     const currentDate = new Date();
     currentDate.setUTCHours(0, 0, 0, 0);
     document.getElementById("date").valueAsDate = currentDate;
-
-    this.timerInterval = null;
   }
-
   static addTimer(timer) {
     const timerList = document.getElementById("timerList");
 
     const newTimer = document.createElement("div");
     newTimer.className = "timerContainers";
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.appendChild(document.createTextNode("X"));
+    deleteBtn.className = "btn btn-primary float-end delete";
 
     const timerTitle = document.createElement("h1");
     timerTitle.appendChild(document.createTextNode(timer.title));
@@ -58,43 +41,12 @@ class UI {
     timerTime.appendChild(document.createTextNode(timer.time));
     timerTime.className = "setTime";
 
+    newTimer.appendChild(deleteBtn);
     newTimer.appendChild(timerTitle);
     newTimer.appendChild(timerTimer);
     newTimer.appendChild(timerTime);
     timerList.appendChild(newTimer);
     timer.timerElement = newTimer;
-
-    // if (!this.timerInterval)
-    //   this.timerInterval = setInterval(() => this.timer(), 1000);
-  }
-
-  addDate(e) {
-    e.preventDefault();
-    const name = document.getElementById("name").value;
-    const date = document.getElementById("date").valueAsDate;
-    const timerList = document.getElementById("timerList");
-
-    const newTimer = document.createElement("div");
-    newTimer.className = "timerContainers";
-
-    const timerTitle = document.createElement("h1");
-    timerTitle.appendChild(document.createTextNode(name));
-    timerTitle.className = "titles";
-
-    const timerTimer = document.createElement("h5");
-    timerTimer.className = "timers";
-
-    const timerTime = document.createElement("h6");
-    timerTime.appendChild(document.createTextNode(date));
-    timerTime.className = "setTime";
-
-    newTimer.appendChild(timerTitle);
-    newTimer.appendChild(timerTimer);
-    newTimer.appendChild(timerTime);
-    timerList.appendChild(newTimer);
-
-    if (!this.timerInterval)
-      this.timerInterval = setInterval(this.timer.bind(this), 1000);
   }
 
   static formatTime(rawTimeDifference) {
@@ -103,29 +55,60 @@ class UI {
     const minutes = Math.floor(rawTimeDifference / 60_000);
     rawTimeDifference %= 60_000;
     const seconds = Math.floor(rawTimeDifference / 1000);
-    rawTimeDifference %= 1000;
 
     return `Hours: ${hours} Minutes: ${minutes} Seconds: ${seconds}`;
   }
 
-  static updateTimer(i, timers, timeFormatted) {
-    timers[i].innerText = timeFormatted;
-  }
   static updateTimers() {
     timers.forEach((timer) => {
-      timer.timerElement.children[1].innerText = UI.formatTime(timer.rawTime);
+      timer.timerElement.children[2].innerText = UI.formatTime(timer.rawTime);
     });
+  }
+
+  static removeTimer(e) {
+    if (!e.target.classList.contains("delete")) return;
+
+    e.target.parentElement.remove();
+    timers.forEach((timer, i) => {
+      if (timer.title === e.target.nextSibling.innerText) timers.splice(i, 1);
+    });
+  }
+  static showAlert(msg) {
+    const div = document.createElement("div");
+    div.className = "alert alert-danger";
+    div.appendChild(document.createTextNode(msg));
+    const container = document.querySelector(".container");
+    const timerList = document.getElementById("timerList");
+    container.insertBefore(div, timerList);
+
+    setTimeout(() => document.querySelector(".alert").remove(), 3000);
   }
 }
 
+UI.init();
+
 const timers = [];
+setInterval(UI.updateTimers, 1000);
 
 addEventListener("submit", (e) => {
   e.preventDefault();
 
   const title = document.getElementById("name").value;
-  const time = document.getElementById("date").valueAsDate;
   const time = document.getElementById("date").value;
+  if (title === "" || time === "") {
+    UI.showAlert("Please fill in name and date.");
+    return;
+  }
+  if (new Date(time) - Date.now() <= 0) {
+    UI.showAlert("Not in the future.");
+    return;
+  }
+  for (const timer of timers) {
+    if (title === timer.title) {
+      UI.showAlert("Cannot have duplicate titles.");
+      return;
+    }
+  }
 
   const timer = new Timer(title, time);
   timers.push(timer);
@@ -133,3 +116,5 @@ addEventListener("submit", (e) => {
   timer.timer();
   UI.updateTimers();
 });
+
+document.getElementById("timerList").addEventListener("click", UI.removeTimer);
