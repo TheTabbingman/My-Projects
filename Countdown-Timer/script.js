@@ -125,6 +125,7 @@ addEventListener("submit", (e) => {
 
   const title = document.getElementById("name").value;
   const time = document.getElementById("date").valueAsDate;
+  const time = document.getElementById("date").value;
 
   const timer = new Timer(title, time);
   timers.push(timer);
