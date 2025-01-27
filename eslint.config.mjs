@@ -11,6 +11,16 @@ export default [
   {
     rules: {
       "prefer-const": "error",
+      "jsdoc/require-jsdoc": [
+        "warn",
+        {
+          require: {
+            FunctionDeclaration: true,
+            MethodDefinition: true,
+            ClassDeclaration: true,
+          },
+        },
+      ],
     },
   },
 ];
