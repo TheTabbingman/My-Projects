@@ -1,11 +1,36 @@
 addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const inputArray = JSON.parse(document.getElementById("input").value);
-  console.log(inputArray);
+  let inputArray = null;
+  try {
+    inputArray = JSON.parse(document.getElementById("input").value);
+  } catch (error) {
+    const errorStr = String(error);
 
-  if (Array.isArray(inputArray)) JSONArray2CSV(inputArray);
-  else JSON2CSV(inputArray);
+    const errorOutput = document.createElement("h6");
+    errorOutput.className = "alert alert-danger";
+
+    // console.error(error);
+    if (errorStr.includes("double-quoted")) {
+      console.error("Must have double quotes around properties.");
+      errorOutput.innerText = "Must have double quotes around properties.";
+    } else {
+      console.error(errorStr);
+      errorOutput.innerText = errorStr;
+    }
+
+    const inputForm = document.getElementById("input-form");
+    const outputLabel = document.getElementById("output-label");
+    inputForm.parentElement.insertBefore(errorOutput, outputLabel);
+    setTimeout(() => document.querySelector(".alert").remove(), 5000);
+  }
+
+  if (inputArray) {
+    console.log(inputArray);
+
+    if (Array.isArray(inputArray)) JSONArray2CSV(inputArray);
+    else JSON2CSV(inputArray);
+  }
 });
 
 function JSON2CSV(inputArray) {
